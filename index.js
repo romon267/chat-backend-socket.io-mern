@@ -16,10 +16,6 @@ const io = socketIo(server, {
 });
 
 io.on('connection', (socket) => {
-  // ======= VIDEO CHAT
-  // Emit socket id for using in calls
-  socket.emit('socketId', socket.id);
-  // =======
   // join a room
   const { roomId } = socket.handshake.query;
   socket.join(roomId);
@@ -60,22 +56,7 @@ io.on('connection', (socket) => {
     });
   });
 
-  // ======== VIDEO CHAT ==========
-  socket.on('callUser', (data) => {
-    io.to(data.userToCall).emit('callUser', {
-      signal: data.signalData, from: data.from, name: data.name,
-    });
-  });
-
-  socket.on('answerCall', (data) => {
-    io.to(data.to).emit('callAccepted', data.signal);
-  });
-  // ==============
-
   socket.on('disconnect', async () => {
-    // ====== VIDEO CHAT =========
-    socket.broadcast.emit('callEnded');
-    // ======
     socket.leave(roomId);
     const oldChannel = await Channel.findById(roomId);
     const oldUsers = oldChannel.users;
