@@ -1,0 +1,10 @@
+GET http://localhost:3001/api/channels
+
+###
+POST http://localhost:3001/api/channels
+content-type: application/json
+
+{
+    "name": "test channel 3",
+    "creator": "romon"
+}
