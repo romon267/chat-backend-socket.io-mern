@@ -7,8 +7,6 @@ const channelRouter = require('./controllers/channels');
 const config = require('./utils/config');
 const logger = require('./utils/logger');
 
-const index = require('./routes/index');
-
 const app = express();
 
 mongoose
@@ -36,7 +34,6 @@ app.use(cors());
 app.use(express.static('build'));
 app.use(express.json());
 app.use('/api/channels', channelRouter);
-app.use(index);
 
 // If request not finding any route, it will just fall to react app router
 app.use((req, res) => {
